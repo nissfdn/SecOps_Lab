@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecOps Lab</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <aside>
+    <h2><i class="fa-solid fa-shield-halved"></i> SecOps Lab</h2>
+
+    <nav>
+        <a href="/"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="/password" class="active"><i class="fa-solid fa-key"></i> Password Tools</a>
+        <a href="/hashing"><i class="fa-solid fa-hashtag"></i> Hash Tools</a>
+        <a href="/encoding"><i class="fa-solid fa-code"></i> Encoding Tools</a>
+        <a href="/network"><i class="fa-solid fa-network-wired"></i> Network Tools</a>
+        <a href="/web"><i class="fa-solid fa-globe"></i> Web Tools</a>
+        <a href="/jwt"><i class="fa-solid fa-ticket"></i> JWT Tools</a>
+        <a href="/logs"><i class="fa-solid fa-terminal"></i> Log Analyzer</a>
+        <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+    </nav>
+</aside>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>
