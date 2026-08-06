@@ -14,15 +14,42 @@
     <h2><i class="fa-solid fa-shield-halved"></i> SecOps Lab</h2>
 
     <nav>
-        <a href="/"><i class="fa-solid fa-house"></i> Dashboard</a>
-        <a href="/password" class="active"><i class="fa-solid fa-key"></i> Password Tools</a>
-        <a href="/hashing"><i class="fa-solid fa-hashtag"></i> Hash Tools</a>
-        <a href="/encoding"><i class="fa-solid fa-code"></i> Encoding Tools</a>
-        <a href="/network"><i class="fa-solid fa-network-wired"></i> Network Tools</a>
-        <a href="/web"><i class="fa-solid fa-globe"></i> Web Tools</a>
-        <a href="/jwt"><i class="fa-solid fa-ticket"></i> JWT Tools</a>
-        <a href="/logs"><i class="fa-solid fa-terminal"></i> Log Analyzer</a>
-        <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+        <a href="/password" class="{% if request.path == '/password' %}active{% endif %}">
+            <i class="fa-solid fa-key"></i>
+            Password Tools
+        </a>
+        <a href="/hashing" class="{% if request.path == '/hashing' %}active{% endif %}">
+            <i class="fa-solid fa-hashtag"></i>
+            Hash Tools
+        </a>
+        <a href="/encoding" class="{% if request.path == '/encoding' %}active{% endif %}">
+            <i class="fa-solid fa-code"></i>
+            Encoding Tools
+        </a>
+        <a href="/network" class="{% if request.path == '/network' %}active{% endif %}">
+            <i class="fa-solid fa-network-wired"></i>
+            Network Tools
+        </a>
+        <a href="/web" class="{% if request.path == '/web' %}active{% endif %}">
+            <i class="fa-solid fa-globe"></i>
+            Web Tools
+        </a>
+        <a href="/jwt" class="{% if request.path == '/jwt' %}active{% endif %}">
+            <i class="fa-solid fa-ticket"></i>
+            JWT Tools
+        </a>
+        <a href="/logs" class="{% if request.path == '/logs' %}active{% endif %}">
+            <i class="fa-solid fa-terminal"></i>
+            Log Analyzer
+        </a>
+        <a href="/settings" class="{% if request.path == '/settings' %}active{% endif %}">
+            <i class="fa-solid fa-gear"></i>
+            Settings
+        </a>
     </nav>
 </aside>
 

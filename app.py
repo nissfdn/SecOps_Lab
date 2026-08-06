@@ -1,7 +1,12 @@
 from flask import Flask, render_template , request # kullanicidan gelen veriyi okuyacagiz o yuzden request ekledik
 import zxcvbn
 import hashlib
+from argon2 import PasswordHasher
+import bcrypt
+import secrets #salt iicn secret tokens lazim
 app = Flask(__name__)
+
+ph = PasswordHasher() #argon2 mantigi
 
 @app.route("/")
 def dashboard():
@@ -10,6 +15,10 @@ def dashboard():
 @app.route("/password")
 def password():
     return render_template("password.html")
+
+
+#------------password analizi
+#----------------------------------------------
 
 @app.route("/password/analyze", methods=["POST"])
 def analyze_password():
@@ -80,23 +89,102 @@ def analyze_password():
         result=result
     )
 
-@app.route("/hashing", methods=["GET","POST"])
-def hashing():
+
+#-------------pasword hashing argon2id bcrypt....
+#-----------------------------------------------------
+
+@app.route("/password/hash", methods=["GET","POST"])
+def password_hashing():
+    hashed_password=None
 
     if request.method == "POST":
         password = request.form.get("password")
+        algorithm=request.form.get("algorithm")
 
-        hashed = hashlib.sha256(password.encode()).hexdigest()
+        if algorithm == "argon2":
+            hashed_password=ph.hash(password)  #argon2 ile hashledim
+
+        elif algorithm == "bcrypt":
+            hashed_password=bcrypt.hashpw(
+                password.encode(),
+                bcrypt.gensalt()
+            )
+
+        elif algorithm == "scrypt":
+            salt=secrets.token_bytes(16)
+            hashed_password = hashlib.scrypt(
+                password.encode(), #parolayi bytes yapiyor
+                salt=salt, #rastgele salt
+                n=16384,      #cpu/memory maliyeti
+                r=8,      #block size
+                p=1,      #parallelism
+            )
+
+        elif algorithm == "pbkdf2":
+            salt = secrets.token_bytes(16)
+            hashed_password = hashlib.pbkdf2_hmac(
+                hash_name="sha256", #sha256...
+                password=password.encode(),
+                salt=salt, #olsuturdugun salt
+                iterations=600000, #tekrar sayisi
+                dklen=32 #olusturulacak anahtarin uzunlugu
+            )
+
+
+    return render_template(
+            "password.html",
+            hashed_password=hashed_password
+    )
+
+
+#---------------hashing md5 sha256 ....
+#-----------------------------------------------------
+
+@app.route("/hashing", methods=["GET","POST"])
+def hashing():
+
+    hashed = None #bunu yazmazsak hashed sadece postta calisiyor dolayisiyla sayfayi ilk actigimda hashed henuz olusturulmamis olucak bunu onlemek icin yazdik
+
+    if request.method == "POST":
+        text=request.form.get("text") #kullanicidan hello123 falan aliyoruz
+        algorithm=request.form.get("algorithm") #algoritmayi yolluyoruz
+
+        algorithms={
+            "md5":hashlib.md5, #guvenli degil cunkuu geri dondurulebilir
+            "sha256":hashlib.sha256, #sha256 kullanmayiz sifrelemede cunku cok hizli hacker ayni anda bir cok saldiri denemesi yapabilir biz yavas ve maliyetli bir sifrelemee algoritmasi istiyooruz
+            "sha512":hashlib.sha512,
+            "sha3_256":hashlib.sha3_256,
+            "sha1": hashlib.sha1
+        }
+
+        #input validation
+        if algorithm not in algorithms:
+            return render_template(
+                "hashing.html",
+                 error="Invalid algorithm"
+            )
+
+        hash_function=algorithms[algorithm] #secilen fonksiyonu degiskende tuttuk
+
+        hashed = hash_function(text.encode()).hexdigest() #"sha256"-> algorithms["sha256"] -> hashlib.sha256 -> text.encode() -> SHA-256 -> hexdigest()-> hash
+      #ama guvenlik problemi var html den istedigi seyi gonderir kullanici bu da KeyError verir bu yuzden yukarida algoritma icinde mi kontrolu yapiyoruz if algorithm not in algorithms
 
     return render_template(
         "hashing.html",
          hashed=hashed
     )
 
+
+#-----------encoding base64.....
+#------------------------------------------------------
+
 @app.route("/encoding")
 def encoding():
     return render_template("encoding.html")
 
+
+#---------Open Network Subnet Planner
+#----------------------------------------------------------
 @app.route("/network")
 def network():
     return render_template("network.html")

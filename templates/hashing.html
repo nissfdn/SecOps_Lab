@@ -10,6 +10,37 @@
 {% block content %}
 
 <h1>Hashing Tools</h1>
+<form method="POST" action="/hashing">
+<!-- name text olmali cunku backend tarafinda text = request.form.get("text") yazdik -->
+<input
+    type="text"
+    name="text"
+    placeholder="Enter text"
+    required
+>
+
+<select name="algorithm"> <!--burda algorithm yazdik backendde algorithm = request.form.get("algorithm") oldugu icin -->
+    <option value="sha256">SHA-256</option> <!--Kullanici ekranda SHA-256 gorur ama flaska sha256 gider -->
+    <option value="sha512">SHA-512</option>
+    <option value="md5">MD5</option>
+    <option value="sha3_256">SHA-3-256</option>
+    <option value="sha1">SHA-1</option>
+</select>
+
+<button type="submit">Hash</button>
+
+</form>
+
+<!--sayfa ilk acildiignda sonuc gorunmez hash butonuna basinca gorunur -->
+{% if hashed %}
+       <h2>Hash Result</h2>
+       <p>{{hashed}}</p>
+{%endif%}
+
+<!--backend deki error icin -->
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}
 
 {% endblock %}
 

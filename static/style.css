@@ -69,7 +69,7 @@ nav a:hover {
 }
 
 /* Active Nav Button */
-nav a.active, nav a[href="/password"] {
+nav a.active {
     background: rgba(0, 240, 255, 0.12);
     color: #00f0ff;
     border-left: 3.5px solid #00f0ff;
@@ -134,7 +134,55 @@ form label {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+/* Cyberpunk Select */
+select {
+    background-color: #080c16;
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    border-radius: 8px;
+    padding: 0.85rem 1.1rem;
+    color: #00ff9d;
+    font-family: 'Fira Code', monospace;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
 
+    /* Varsayılan oku kaldır */
+    appearance: none;
+
+    /* Cyberpunk dropdown oku */
+    background-image: linear-gradient(45deg, transparent 50%, #00f0ff 50%),
+                      linear-gradient(135deg, #00f0ff 50%, transparent 50%);
+    background-position:
+        calc(100% - 18px) 50%,
+        calc(100% - 12px) 50%;
+    background-size:
+        6px 6px,
+        6px 6px;
+    background-repeat: no-repeat;
+
+    padding-right: 2.8rem;
+}
+
+/* Select üzerine gelince */
+select:hover {
+    border-color: #00f0ff;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
+}
+
+/* Select seçiliyken */
+select:focus {
+    border-color: #00f0ff;
+    box-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
+}
+
+/* Dropdown seçenekleri */
+select option {
+    background-color: #080c16;
+    color: #00ff9d;
+    font-family: 'Fira Code', monospace;
+    padding: 0.75rem;
+}
 /* Koyu Monospace Girdi Alanı & Yeşil Metin */
 input[type="password"],
 input[type="text"] {
@@ -219,4 +267,128 @@ main p {
     align-items: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
+}
+
+/* =========================
+   NETWORK TOOL
+   ========================= */
+
+.network-container {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.network-card {
+    width: min(700px, 90%);
+    padding: 45px;
+    background: rgba(15, 20, 30, 0.85);
+    border: 1px solid rgba(0, 255, 170, 0.25);
+    border-radius: 16px;
+    box-shadow: 0 0 35px rgba(0, 255, 170, 0.08);
+    text-align: center;
+}
+
+.network-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(0, 255, 170, 0.4);
+    border-radius: 14px;
+
+    font-size: 30px;
+    color: #00ffaa;
+
+    background: rgba(0, 255, 170, 0.05);
+    box-shadow: 0 0 25px rgba(0, 255, 170, 0.1);
+}
+
+.network-card h1 {
+    margin-bottom: 15px;
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.network-card p {
+    max-width: 550px;
+    margin: 0 auto 30px;
+
+    color: #8f9aaa;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.network-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 30px;
+    padding: 8px 14px;
+
+    border: 1px solid rgba(0, 255, 170, 0.2);
+    border-radius: 20px;
+
+    color: #00ffaa;
+    background: rgba(0, 255, 170, 0.05);
+
+    font-family: "Fira Code", monospace;
+    font-size: 13px;
+}
+
+.network-status::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+    background: #00ffaa;
+    box-shadow: 0 0 10px #00ffaa;
+}
+
+.network-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 26px;
+
+    border: 1px solid #00ffaa;
+    border-radius: 8px;
+
+    background: rgba(0, 255, 170, 0.08);
+    color: #00ffaa;
+
+    text-decoration: none;
+
+    font-family: "Fira Code", monospace;
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.network-button:hover {
+    background: rgba(0, 255, 170, 0.16);
+    box-shadow: 0 0 25px rgba(0, 255, 170, 0.2);
+    transform: translateY(-2px);
+}
+
+.network-url {
+    margin-top: 18px;
+
+    color: #596575;
+
+    font-family: "Fira Code", monospace;
+    font-size: 12px;
+
+    word-break: break-all;
 }
