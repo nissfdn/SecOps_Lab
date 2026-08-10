@@ -1,17 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Web Tools</title>
-</head>
-<body>
-
 {% extends "base.html" %}
+
+{% block title %}Web Tools - SecOps Lab{% endblock %}
 
 {% block content %}
 
-<h1>Web Tools</h1>
+<form method="POST" action="/web">
+
+    <input
+        type="url"
+        name="url"
+        placeholder="https://example.com"
+        required
+    >
+
+    <button type="submit">Analyze</button>
+
+</form>
+
+
+{% if security_results %}
+
+    <h2>Header Audit Results for {{ target_url }}</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+
+        {% for header, item in security_results.items() %}
+
+            <div class="security-card">
+
+                <div class="security-card-header">
+
+                    <div class="security-card-title">
+                        {{ header }}
+                    </div>
+
+                    {% if item.status %}
+                        <span class="status-badge status-present">
+                            ✅ Present
+                        </span>
+                    {% else %}
+                        <span class="status-badge status-missing">
+                            ❌ Missing
+                        </span>
+                    {% endif %}
+
+                </div>
+
+                <div class="security-card-body">
+
+                    <div class="security-detail">
+                        <strong>Description:</strong>
+                        {{ item.description }}
+                    </div>
+
+                    {% if item.status %}
+
+                        <div class="security-detail">
+                            <strong>Value:</strong>
+                            {{ item.value }}
+                        </div>
+                        <div class="security-detail">
+                            <strong>Assessment:</strong>
+                            {{ item.assessment }}
+                         </div>
+                    {% else %}
+
+                         <div class="security-detail">
+                            <strong>Assessment:</strong>
+                             {{ item.assessment }}
+                         </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endif %}
+
+
+{% if web_error %}
+
+    <div class="error-message">
+        <strong>Connection Error</strong>
+        <p>{{ web_error }}</p>
+    </div>
+
+{% endif %}
 
 {% endblock %}
-</body>
-</html>

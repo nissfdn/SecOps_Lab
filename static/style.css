@@ -392,3 +392,63 @@ main p {
 
     word-break: break-all;
 }
+/* Security Result Cards (Cyberpunk Style) */
+.security-card {
+    background: rgba(18, 24, 38, 0.85);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.security-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+    padding-bottom: 0.5rem;
+}
+
+.security-card-title {
+    font-size: 1.1rem;
+    color: #00f0ff;
+    font-weight: 600;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-present {
+    background: rgba(0, 255, 157, 0.15);
+    color: #00ff9d;
+    border: 1px solid rgba(0, 255, 157, 0.4);
+}
+
+.status-missing {
+    background: rgba(255, 0, 85, 0.15);
+    color: #ff0055;
+    border: 1px solid rgba(255, 0, 85, 0.4);
+}
+
+.security-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.security-detail {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.security-detail strong {
+    color: #e2e8f0;
+}

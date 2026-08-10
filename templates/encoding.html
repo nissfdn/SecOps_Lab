@@ -13,7 +13,96 @@
 
 <h1>Encoding Tools</h1>
 
+
+
+<form method="POST" action="/encoding">
+    <input
+        type="text"
+        name="text"
+        placeholder="Enter text"
+        required
+    >
+    <button type="submit">Encode</button>
+</form>
+
+{% if encoded %} <!--HTML de gorunmesi icin boyle olmali text i base64 e cevirir -->
+    <p>Encoded: {{ encoded }}</p>
+{% endif %}
+
+<form method="POST" action="/encoding/decode">
+    <input
+        type="text"
+        name="encoded_text"
+        placeholder="Enter Base64 text"
+        required
+    >
+
+    <button type="submit">Decode</button>
+</form>
+
+
+{% if decoded %} <!--Base64 olan formati text e cevirme -->
+    <p>Decoded: {{ decoded }}</p>
+{% endif %}
+
+<form method="POST" action="/encoding/url">
+    <input
+        type="text"
+        name="text"
+        placeholder="Enter text"
+        required
+    >
+    <button type="submit">Encode URL</button>
+</form>
+
+{% if urlencoded %} <!--url encoding icin -->
+    <p>URL Encoded: {{ urlencoded }}</p>
+{% endif %}
+
+<form method="POST" action="/encoding/url/decode">
+    <input
+        type="text"
+        name="text"
+        placeholder="Enter URl encoding text"
+        required
+    >
+    <button type="submit">Decode URL</button>
+</form>
+
+{% if urldecoded %} <!--URL decoding icin -->
+    <p>URL Decoded: {{ urldecoded }}</p>
+{% endif %}
+
+<form method="POST" action="/encoding/hex">
+    <input
+        type="text"
+        name="text"
+        placeholder="Enter text"
+        required
+    >
+    <button type="submit">Encode Hex</button>
+</form>
+
+{% if hexencoded %} <!--Hex encoding icin -->
+    <p>Hex Encoded: {{ hexencoded }}</p>
+{% endif %}
+
+<form method="POST" action="/encoding/hex/decode">
+    <input
+        type="text"
+        name="text"
+        placeholder="Enter Hex encoding text"
+        required
+    >
+    <button type="submit">Decode Hex</button>
+</form>
+
+{% if hexdecoded %} <!--Hex decoding icin -->
+    <p>Hex Decoded: {{ hexdecoded }}</p>
+{% endif %}
+
 {% endblock %}
+
 
 </body>
 </html>

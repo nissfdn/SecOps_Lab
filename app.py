@@ -4,6 +4,9 @@ import hashlib
 from argon2 import PasswordHasher
 import bcrypt
 import secrets #salt iicn secret tokens lazim
+import base64
+from urllib.parse import quote,unquote  #quote=url encode--unquote=url decode icin
+import requests
 app = Flask(__name__)
 
 ph = PasswordHasher() #argon2 mantigi
@@ -178,10 +181,88 @@ def hashing():
 #-----------encoding base64.....
 #------------------------------------------------------
 
-@app.route("/encoding")
+@app.route("/encoding", methods=["GET","POST"])
 def encoding():
-    return render_template("encoding.html")
 
+    encoded = None #yani henuz encode edilmis veri yok kullanici formu gonderince None nin uzerine gercek deger yaziliyor
+
+    if request.method == "POST":
+        text=request.form.get("text") #base64 formayina donusturecegimiz text i yolluyoruz
+        encoded = base64.b64encode(text.encode()).decode()
+        #text kullanicinin yazdigi normal python stringi
+        #base64.b64encode() string kabul etmez bytes ister bu yuzden text.encode() yaziyoruz yani string i bytes a donduruyor
+        #artik elimizde bytes var biz html e bytes gondermek istemiyoruz o yuzden .decode() stringe ceviiryoruz
+        print(encoded)
+
+    return render_template(
+        "encoding.html",
+        encoded=encoded
+    )
+
+#-----------decoding base64.....
+#------------------------------------------------------
+
+@app.route("/encoding/decode", methods=["GET","POST"])
+def encoding_decode():
+    if request.method == "POST":
+        encoded_text=request.form.get("encoded_text")
+        decoded=base64.b64decode(encoded_text.encode()).decode() #modul fonksiyon cagirdik
+        print(decoded)
+
+    return render_template(
+        "encoding.html",
+        decoded=decoded
+    )
+
+#-----------Url encoding .....
+#------------------------------------------------------
+
+@app.route("/encoding/url", methods=["POST"])
+def url_encode():
+
+    text=request.form.get("text")
+    urlencoded = quote(text) #fonksiyonu dogrudan kullandik
+    return render_template(
+        "encoding.html",
+        urlencoded=urlencoded
+    )
+
+#-----------Url decoding .....
+#------------------------------------------------------
+
+@app.route("/encoding/url/decode", methods=["POST"])
+def url_decode():
+
+    text=request.form.get("text")
+    urldecoded = unquote(text) #fonksiyonu dogrudan kullandik
+    return render_template(
+        "encoding.html",
+        urldecoded=urldecoded
+    )
+
+#-----------Hex encoding .....
+#------------------------------------------------------
+
+@app.route("/encoding/hex", methods=["POST"])
+def hex_encode():
+    text=request.form.get("text")
+    hexencoded=text.encode().hex() #text i bytes a cevirme
+    return render_template(
+        "encoding.html",
+        hexencoded=hexencoded
+    )
+
+#-----------Hex decoding .....
+#------------------------------------------------------
+
+@app.route("/encoding/hex/decode", methods=["POST"])
+def hex_decode():
+    text=request.form.get("text")
+    hexdecoded=bytes.fromhex(text).decode() #bytes i text e cevirme
+    return render_template(
+        "encoding.html",
+        hexdecoded=hexdecoded
+    )
 
 #---------Open Network Subnet Planner
 #----------------------------------------------------------
@@ -189,12 +270,166 @@ def encoding():
 def network():
     return render_template("network.html")
 
-@app.route("/web")
+@app.route("/web", methods=["GET", "POST"])
 def web():
-    return render_template("web.html")
+
+    headers = None #sayfa ilk acildiginda henuz http  header bilgisi olmadigi iicn none ile baslatiyoruz
+    security_results = None #guvenlik headerlarinin sonuclarini tutacagimiz degiskeni baslnagicta none yapiyoruz
+    target_url = None
+
+    if request.method == "POST": #kullanici formu gonderdiginde post istegi olusur
+
+        target_url = request.form.get("url")#html formundan gonderilen url bilgiisni aliyoruz
+
+
+        response = requests.get(target_url)# kullanicinin gonderdiig url e http get istegi gonderiyoruz
+
+        headers = dict(response.headers)#sunucunun response headerlarini aliyoruz
+        #dict() ile normal Python dictionary'sine çeviriyoruz
+        if "Set-Cookie" in headers:
+            headers["Set-Cookie"] = "[REDACTED]" #kullanici arayuzunde cookie degerlerini gosterme
+
+        #kontrol etmek istediigmiz guvenlik headerlarini belirliyoruz
+        #key: gercek http header adi
+        #value: bu headerin bizim uygulamamizdaki aciklamasi
+        security_headers = {
+            "Strict-Transport-Security": "HSTS",
+            "Content-Security-Policy": "CSP",
+            "X-Frame-Options": "Clickjacking Protection",
+            "X-Content-Type-Options": "MIME Sniffing Protection",
+            "Referrer-Policy": "Referrer Policy",
+            "Permissions-Policy": "Permissions Policy"
+        }
+
+        #guvenlik headerlarinin sonuclarini tutacak bos dict olusturuyoruz
+        security_results = {}
+
+
+        #belirlediigmiz her guvenlik  heraderini tek tek kontrol ediyoruz
+        for header, description in security_headers.items():
+
+            if header in headers: #kontrol ettgiimiz header response icinde varsa
+                value = headers[header]
+                assessment = "Present"
+
+                # X Frame Options icin analiz
+                if header == "X-Frame-Options":
+                    if value.upper() in ["DENY","SAMEORIGIN"]:
+                        assessment = "Good"
+                    else:
+                        assessment = "Check Value"
+
+                #HSTS analizi
+                elif header == "Strict-Transport-Security":
+                    value_lower=value.lower()
+
+                    if "max-age" in value_lower:
+                        max_age_part=value_lower.split("max-age=")[1].split(";")[0]
+                        try:
+                            max_age=int(max_age_part)
+                            if max_age>=31536000:
+                                assessment="Good"
+                            else:
+                                assessment="Weak max-age"
+                        except ValueError:
+                            assessment="invalid max-age"
+                    else:
+                        assessment="Missing max-age"
+
+                # X-Content type options
+                elif header == "X-Content-Type-Options":
+                    values = [v.strip().lower() for v in value.split(",")]
+
+                    if all(v == "nosniff" for v in values):
+                        assessment = "Good"
+                    else:
+                        assessment = "Invalid value"
+
+
+                # Content Security Policy(CSP) analizi
+                elif header == "Content-Security-Policy":
+
+                    value_lower = value.lower()
+
+                    has_default_src = "default-src" in value_lower
+                    has_script_src = "script-src" in value_lower
+                    has_object_none = "object-src 'none'" in value_lower
+
+                    if has_default_src and has_script_src and has_object_none:
+                        assessment = "Good"
+
+                    elif has_default_src and has_script_src:
+                        assessment = "Present, but object-src 'none' is missing"
+
+                    else:
+                        assessment = "Weak CSP"
+
+
+                #Referrer policy analizi
+                elif header == "Referrer-Policy":
+                    value_lower = value.lower()
+                    allowed_values = [  #kabul edecegimi zdegerleri bir listeye koyuyoruz
+                         "no-referrer",
+                         "no-referrer-when-downgrade",
+                         "same-origin",
+                         "origin",
+                         "strict-origin",
+                         "origin-when-cross-origin",
+                         "strict-origin-when-cross-origin",
+                         "unsafe-url"
+                    ]
+                    if value_lower in allowed_values:
+                        assessment = "Good"
+                    else:
+                        assessment = "Check Value"
+
+                #Permissions Policy
+                elif header == "Permissions-Policy":
+                    value_lower = value.lower()
+
+                    # Kullanıcı açısından hassas özelliklerin kapatılıp kapatılmadığını kontrol ediyoruz
+                    protected_features = [
+                        "camera=()",
+                        "microphone=()",
+                        "geolocation=()"
+                    ]
+
+                    # Tüm özellikler kapatılmışsa iyi bir yapılandırma olarak değerlendiriyoruz
+                    if all(feature in value_lower for feature in protected_features): # buradaki all ucunun de bulunmasi gerekiyor bir tanesi bile yoksa check policy
+                        assessment = "Good"
+
+                    # Header var ama bazı özellikler açık bırakılmışsa bunu belirtiyoruz
+                    else:
+                        assessment = "Check policy"
+
+                security_results[header] = {  # header in buludnuugunu status=true olarak kaydediyorz
+                    "description": description,
+                    "status": True,
+                    "value": value,  # headerin gercek degerini aliyor
+                    "assessment": assessment
+                }
+
+
+
+            else: #header response icinde bulunmuyorsa
+                security_results[header] = {
+                    "description": description,
+                    "status": False,
+                    "value": None,
+                    "assessment": "Missing"
+                }
+
+    return render_template(
+        "web.html",
+        headers=headers,
+        security_results=security_results,
+        target_url=target_url
+    )
+
 
 @app.route("/jwt")
 def jwt():
+
     return render_template("jwt.html")
 
 @app.route("/logs")
