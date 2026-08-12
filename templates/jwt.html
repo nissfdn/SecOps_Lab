@@ -7,10 +7,188 @@
 <body>
 
 {% extends "base.html" %}
+{% block title %}JWT Tool - SecOps Lab{% endblock %}
 
 {% block content %}
 
 <h1>JWT Tools</h1>
+
+<form method="POST" class="jwt-form" action="/jwt">
+
+    <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        required
+    >
+
+    <input
+        type="text"
+        name="user_id"
+        placeholder="User ID"
+        required
+    >
+
+    <input
+        type="text"
+        name="role"
+        placeholder="Role"
+        required
+    >
+
+    <button type="submit">
+        Generate JWT
+    </button>
+
+</form>
+
+
+{% if token %}
+
+    <div class="jwt-result">
+
+    <div class="jwt-result-header">
+        <h3>Generated JWT</h3>
+        <span class="jwt-status">Generated</span>
+    </div>
+
+    <div class="jwt-token-box">
+        {{ token }}
+    </div>
+
+</div>
+
+{% endif %}
+
+{% if decoded_header %}
+
+
+{% endif %}
+
+<div class="jwt-analyzer">
+
+    <h2>JWT Analyzer</h2>
+
+    <p>Paste an existing JWT token to analyze its structure.</p>
+
+    <form method="POST" action="/jwt/analyze">
+
+        <textarea
+            name="jwt_token"
+            placeholder="Paste JWT token here..."
+            required
+        ></textarea>
+
+        <button type="submit">
+            Analyze JWT
+        </button>
+
+    </form>
+
+</div>
+{% if decoded_header %}
+
+<div class="jwt-analysis">
+
+    <h2>JWT Analysis</h2>
+
+    <div class="jwt-section">
+
+        <h3>Header</h3>
+
+        <pre>{{ decoded_header | tojson(indent=4) }}</pre>
+
+    </div>
+
+
+    <div class="jwt-section">
+
+        <h3>Payload</h3>
+
+        <pre>{{ decoded_payload | tojson(indent=4) }}</pre>
+
+    </div>
+
+
+    <div class="jwt-section">
+
+        <h3>Signature</h3>
+
+        <pre>{{ signature }}</pre>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% if jwt_error %}
+
+<div class="jwt-error">
+    {{ jwt_error }}
+</div>
+
+{% endif %}
+
+{% if verification_status == True %}
+
+<div class="jwt-verification valid">
+    ✅ Signature Valid
+</div>
+
+{% elif verification_status == False %}
+
+<div class="jwt-verification invalid">
+    ❌ Signature Invalid
+</div>
+
+{% endif %}
+
+{% if claim_analysis %}
+
+<div class="jwt-claims">
+
+    <h2>JWT Claim Analysis</h2>
+
+    {% for claim, data in claim_analysis.items() %}
+
+    <div class="claim-card">
+
+        <div class="claim-header">
+            <strong>{{ claim }}</strong>
+
+            {% if data.status == "Expired" %}
+                <span class="claim-status danger">Expired</span>
+
+            {% elif data.status == "Valid" %}
+                <span class="claim-status success">Valid</span>
+
+            {% elif data.status == "Missing" %}
+                <span class="claim-status warning">Missing</span>
+
+            {% elif data.status == "Not active yet" %}
+                <span class="claim-status warning">Not Active Yet</span>
+
+            {% elif data.status == "Active" %}
+                <span class="claim-status success">Active</span>
+            {% endif %}
+        </div>
+
+        <div class="claim-value">
+            {{ data.value }}
+        </div>
+
+        <div class="claim-description">
+            {{ data.description }}
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
 
 {% endblock %}
 

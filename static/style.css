@@ -40,11 +40,6 @@ aside h2 {
     gap: 0.5rem;
 }
 
-/*aside h2::before {
-    content: "🛡️";
-    font-size: 1.2rem;
-}*/
-
 nav {
     display: flex;
     flex-direction: column;
@@ -80,13 +75,14 @@ nav a.active {
 nav a {
     display: flex;
     align-items: center;
-    gap: 0.75rem; /* İkon ile yazı arasındaki mesafe */
+    gap: 0.75rem;
 }
+
 nav a i {
     font-size: 1.1rem;
     width: 20px;
     text-align: center;
-    color: #38bdf8; /* İkonların parlayan mavi rengi */
+    color: #38bdf8;
 }
 
 /* Ana İçerik Alanı */
@@ -94,6 +90,8 @@ main {
     flex: 1;
     padding: 3rem;
     max-width: 850px;
+    /* Taşan içeriklerin sayfa düzenini bozmasını engeller */
+    min-width: 0;
 }
 
 main h1 {
@@ -111,7 +109,7 @@ main h1::before {
     content: "🔑";
 }
 
-/* Form Kartı (Görseldeki Parlayan Glassmorphism Kartı) */
+/* Form Kartı */
 form {
     background: rgba(18, 24, 38, 0.85);
     border: 1px solid rgba(0, 240, 255, 0.3);
@@ -134,6 +132,7 @@ form label {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
 /* Cyberpunk Select */
 select {
     background-color: #080c16;
@@ -146,11 +145,7 @@ select {
     outline: none;
     cursor: pointer;
     transition: all 0.25s ease;
-
-    /* Varsayılan oku kaldır */
     appearance: none;
-
-    /* Cyberpunk dropdown oku */
     background-image: linear-gradient(45deg, transparent 50%, #00f0ff 50%),
                       linear-gradient(135deg, #00f0ff 50%, transparent 50%);
     background-position:
@@ -160,32 +155,30 @@ select {
         6px 6px,
         6px 6px;
     background-repeat: no-repeat;
-
     padding-right: 2.8rem;
 }
 
-/* Select üzerine gelince */
 select:hover {
     border-color: #00f0ff;
     box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
 }
 
-/* Select seçiliyken */
 select:focus {
     border-color: #00f0ff;
     box-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
 }
 
-/* Dropdown seçenekleri */
 select option {
     background-color: #080c16;
     color: #00ff9d;
     font-family: 'Fira Code', monospace;
     padding: 0.75rem;
 }
-/* Koyu Monospace Girdi Alanı & Yeşil Metin */
+
+/* Girdi Alanı */
 input[type="password"],
-input[type="text"] {
+input[type="text"],
+input[type="url"] {
     background-color: #080c16;
     border: 1px solid rgba(0, 240, 255, 0.4);
     border-radius: 8px;
@@ -195,10 +188,12 @@ input[type="text"] {
     font-size: 1rem;
     outline: none;
     transition: all 0.25s ease;
+    min-width: 0;
 }
 
 input[type="password"]:focus,
-input[type="text"]:focus {
+input[type="text"]:focus,
+input[type="url"]:focus {
     border-color: #00f0ff;
     box-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
 }
@@ -213,9 +208,9 @@ button {
     cursor: pointer;
     border: none;
     transition: all 0.25s ease;
+    white-space: nowrap;
 }
 
-/* Analyze Main Button (Neon Cyan-Green Gradient) */
 button[type="submit"] {
     background: linear-gradient(135deg, #00f0ff, #00ff9d);
     color: #070a12;
@@ -228,7 +223,6 @@ button[type="submit"]:hover {
     box-shadow: 0 0 28px rgba(0, 255, 157, 0.7);
 }
 
-/* Show/Hide Button */
 button[type="button"] {
     background-color: #080c16;
     color: #94a3b8;
@@ -267,6 +261,12 @@ main p {
     align-items: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
+
+    /* Flexbox taşmalarını engellemek için */
+    flex-wrap: wrap;
+    gap: 10px;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* =========================
@@ -289,23 +289,20 @@ main p {
     border-radius: 16px;
     box-shadow: 0 0 35px rgba(0, 255, 170, 0.08);
     text-align: center;
+    max-width: 100%;
 }
 
 .network-icon {
     width: 70px;
     height: 70px;
     margin: 0 auto 25px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border: 1px solid rgba(0, 255, 170, 0.4);
     border-radius: 14px;
-
     font-size: 30px;
     color: #00ffaa;
-
     background: rgba(0, 255, 170, 0.05);
     box-shadow: 0 0 25px rgba(0, 255, 170, 0.1);
 }
@@ -315,64 +312,57 @@ main p {
     color: #ffffff;
     font-size: 32px;
     font-weight: 700;
+    word-break: break-word;
 }
 
 .network-card p {
     max-width: 550px;
     margin: 0 auto 30px;
-
     color: #8f9aaa;
     line-height: 1.7;
     font-size: 15px;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .network-status {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-
     margin-bottom: 30px;
     padding: 8px 14px;
-
     border: 1px solid rgba(0, 255, 170, 0.2);
     border-radius: 20px;
-
     color: #00ffaa;
     background: rgba(0, 255, 170, 0.05);
-
     font-family: "Fira Code", monospace;
     font-size: 13px;
+    word-break: break-word;
 }
 
 .network-status::before {
     content: "";
     width: 7px;
     height: 7px;
-
     border-radius: 50%;
     background: #00ffaa;
     box-shadow: 0 0 10px #00ffaa;
+    flex-shrink: 0;
 }
 
 .network-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     padding: 14px 26px;
-
     border: 1px solid #00ffaa;
     border-radius: 8px;
-
     background: rgba(0, 255, 170, 0.08);
     color: #00ffaa;
-
     text-decoration: none;
-
     font-family: "Fira Code", monospace;
     font-size: 14px;
     font-weight: 600;
-
     transition: 0.2s ease;
 }
 
@@ -384,14 +374,13 @@ main p {
 
 .network-url {
     margin-top: 18px;
-
     color: #596575;
-
     font-family: "Fira Code", monospace;
     font-size: 12px;
-
     word-break: break-all;
+    overflow-wrap: break-word;
 }
+
 /* Security Result Cards (Cyberpunk Style) */
 .security-card {
     background: rgba(18, 24, 38, 0.85);
@@ -400,6 +389,7 @@ main p {
     padding: 1.2rem;
     margin-bottom: 1rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
 }
 
 .security-card-header {
@@ -409,12 +399,17 @@ main p {
     margin-bottom: 0.8rem;
     border-bottom: 1px solid rgba(0, 240, 255, 0.15);
     padding-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .security-card-title {
     font-size: 1.1rem;
     color: #00f0ff;
     font-weight: 600;
+    word-break: break-word;
+    flex: 1;
+    min-width: 0;
 }
 
 .status-badge {
@@ -423,6 +418,7 @@ main p {
     font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .status-present {
@@ -447,8 +443,744 @@ main p {
     font-family: 'Fira Code', monospace;
     font-size: 0.9rem;
     color: #94a3b8;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .security-detail strong {
     color: #e2e8f0;
+}
+
+/* ================================
+   JWT TOOL
+================================ */
+
+.jwt-analyzer {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 255, 170, 0.25);
+    border-radius: 12px;
+    background: rgba(10, 15, 25, 0.85);
+}
+
+.jwt-analyzer h2 {
+    margin-bottom: 0.5rem;
+}
+
+.jwt-analyzer textarea {
+    width: 100%;
+    min-height: 130px;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #0b1018;
+    color: #d8fdf0;
+    border: 1px solid rgba(0, 255, 170, 0.25);
+    border-radius: 8px;
+    font-family: "Fira Code", monospace;
+    font-size: 0.9rem;
+    resize: vertical;
+    outline: none;
+    word-break: break-all;
+}
+
+.jwt-analyzer textarea:focus {
+    border-color: #00ffaa;
+    box-shadow: 0 0 12px rgba(0, 255, 170, 0.15);
+}
+
+/* ================================
+   GENERATED TOKEN
+================================ */
+
+.jwt-result {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    border: 1px solid rgba(0, 255, 170, 0.25);
+    border-radius: 12px;
+    background: rgba(10, 15, 25, 0.9);
+}
+
+.jwt-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.jwt-result-header h3 {
+    margin: 0;
+}
+
+.jwt-status {
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(0, 255, 170, 0.1);
+    color: #00ffaa;
+    white-space: nowrap;
+}
+
+.jwt-token-box {
+    padding: 1rem;
+    background: #070b11;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    font-family: "Fira Code", monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    color: #d8fdf0;
+}
+
+/* ================================
+   JWT ANALYSIS
+================================ */
+
+.jwt-analysis {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.jwt-analysis > h2 {
+    grid-column: 1 / -1;
+}
+
+/* Individual sections */
+.jwt-section {
+    padding: 1.25rem;
+    background: rgba(10, 15, 25, 0.9);
+    border: 1px solid rgba(0, 255, 170, 0.18);
+    border-radius: 12px;
+    min-width: 0;
+}
+
+.jwt-section h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+/* JSON / Signature */
+.jwt-section pre {
+    margin: 0;
+    padding: 1rem;
+    background: #070b11;
+    border-radius: 8px;
+
+    font-family: "Fira Code", monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #d8fdf0;
+
+    /* JSON ve uzun imzaların alt satıra geçmesi */
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    overflow-x: auto;
+}
+
+/* ================================
+   VERIFICATION
+================================ */
+
+.jwt-verification {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-family: "Fira Code", monospace;
+    word-break: break-word;
+}
+
+.jwt-verification.valid {
+    border: 1px solid rgba(0, 255, 170, 0.35);
+    background: rgba(0, 255, 170, 0.08);
+    color: #00ffaa;
+}
+
+.jwt-verification.invalid {
+    border: 1px solid rgba(255, 80, 80, 0.35);
+    background: rgba(255, 80, 80, 0.08);
+    color: #ff7070;
+}
+
+/* ================================
+   ERROR
+================================ */
+
+.jwt-error {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 80, 80, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 80, 80, 0.08);
+    color: #ff7070;
+    font-family: "Fira Code", monospace;
+    word-break: break-word;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+    .jwt-analysis {
+        grid-template-columns: 1fr;
+    }
+}
+/* ================================
+   JWT CLAIM ANALYSIS
+================================ */
+
+.jwt-claims {
+    margin-top: 2rem;
+}
+
+.claim-card {
+    margin-top: 0.75rem;
+    padding: 1rem 1.25rem;
+
+    background: rgba(10, 15, 25, 0.9);
+    border: 1px solid rgba(0, 255, 170, 0.18);
+    border-radius: 10px;
+}
+
+.claim-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.claim-header strong {
+    font-family: "Fira Code", monospace;
+    font-size: 0.95rem;
+}
+
+.claim-value {
+    margin-top: 0.7rem;
+
+    font-family: "Fira Code", monospace;
+    font-size: 0.85rem;
+
+    word-break: break-word;
+}
+
+.claim-description {
+    margin-top: 0.5rem;
+
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.claim-status {
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.claim-status.success {
+    background: rgba(0, 255, 170, 0.1);
+    color: #00ffaa;
+}
+
+.claim-status.warning {
+    background: rgba(255, 190, 0, 0.1);
+    color: #ffcc55;
+}
+
+.claim-status.danger {
+    background: rgba(255, 70, 70, 0.1);
+    color: #ff7070;
+}
+/* ================================
+   AUTHENTICATION (LOGIN & REGISTER)
+================================ */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-container {
+    max-width: 420px;
+    margin: 4rem auto;
+    background: rgba(30, 36, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+    animation: fadeUp 0.6s ease-out;
+}
+
+.auth-header {
+    text-align: center;
+    padding: 2.5rem 2rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.auth-header h1 {
+    font-size: 2rem;
+    color: #7aa2f7;
+    text-shadow: 0 2px 10px rgba(122, 162, 247, 0.2);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.auth-header p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: #a9b1d6;
+}
+
+.auth-tabs {
+    display: flex;
+    background: rgba(15, 20, 30, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.auth-tabs button {
+    flex: 1;
+    background: transparent;
+    color: #565f89;
+    border: none;
+    padding: 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auth-tabs button:hover {
+    color: #7aa2f7;
+    background: rgba(122, 162, 247, 0.05);
+}
+
+/* Tab active state needs JS to toggle a class, but we can assume hover looks active for now or user can add active class */
+.auth-tabs button.active {
+    color: #7aa2f7;
+    background: rgba(122, 162, 247, 0.1);
+}
+
+/* The form itself */
+.auth-form {
+    padding: 2.5rem 2rem;
+}
+
+.auth-form h2 {
+    font-size: 1.5rem;
+    color: #c0caf5;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.auth-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    margin-bottom: 0;
+}
+
+.auth-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.auth-form label {
+    font-size: 0.85rem;
+    color: #7aa2f7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Override global inputs for auth to be softer */
+.auth-form input[type="text"],
+.auth-form input[type="password"] {
+    width: 100%;
+    background-color: #1a1b26;
+    border: 1px solid #292e42;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    color: #a9b1d6;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.auth-form input[type="text"]:focus,
+.auth-form input[type="password"]:focus {
+    border-color: #7aa2f7;
+    box-shadow: 0 0 0 3px rgba(122, 162, 247, 0.2);
+}
+
+/* Soft modern gradient button */
+.auth-form button[type="submit"] {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #7aa2f7, #bb9af7);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 15px rgba(122, 162, 247, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auth-form button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(122, 162, 247, 0.4);
+}
+
+/* Messages */
+.auth-error {
+    margin: 0 2rem 2rem;
+    padding: 1rem;
+    background: rgba(247, 118, 142, 0.1);
+    border: 1px solid rgba(247, 118, 142, 0.3);
+    border-radius: 12px;
+    color: #f7768e;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.auth-success {
+    margin: 0 2rem 2rem;
+    padding: 1rem;
+    background: rgba(115, 218, 202, 0.1);
+    border: 1px solid rgba(115, 218, 202, 0.3);
+    border-radius: 12px;
+    color: #73daca;
+    font-size: 0.9rem;
+    text-align: center;
+}
+/* =========================================
+   LOG TOOL
+   ========================================= */
+
+.logs-container {
+    width: 100%;
+    margin-top: 25px;
+    padding: 25px;
+    box-sizing: border-box;
+
+    background: rgba(10, 15, 25, 0.85);
+    border: 1px solid rgba(0, 255, 255, 0.25);
+    border-radius: 12px;
+
+    box-shadow:
+        0 0 15px rgba(0, 255, 255, 0.08),
+        inset 0 0 20px rgba(0, 255, 255, 0.03);
+
+    overflow-x: auto;
+}
+
+.logs-container h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+
+    font-family: "Fira Code", monospace;
+    font-size: 20px;
+    letter-spacing: 1px;
+
+    color: #00ffff;
+
+    text-shadow:
+        0 0 5px rgba(0, 255, 255, 0.5),
+        0 0 12px rgba(0, 255, 255, 0.25);
+}
+
+
+/* =========================================
+   TABLE
+   ========================================= */
+
+.logs-table {
+    width: 100%;
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+    font-family: "Fira Code", monospace;
+    font-size: 13px;
+}
+
+
+/* TABLE HEADER */
+
+.logs-table thead {
+    background: rgba(0, 255, 255, 0.06);
+}
+
+.logs-table th {
+    padding: 14px 12px;
+
+    text-align: left;
+    white-space: nowrap;
+
+    color: #00ffff;
+
+    border-bottom: 1px solid rgba(0, 255, 255, 0.35);
+
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+
+/* TABLE CELLS */
+
+.logs-table td {
+    padding: 13px 12px;
+
+    color: #c9d6e4;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+    vertical-align: middle;
+}
+
+
+/* ROW */
+
+.logs-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.logs-table tbody tr:hover {
+    background: rgba(0, 255, 255, 0.05);
+
+    box-shadow:
+        inset 3px 0 0 rgba(0, 255, 255, 0.6);
+}
+
+
+/* =========================================
+   STATUS
+   ========================================= */
+
+.logs-table td:nth-child(3) {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+/* SUCCESS */
+
+.logs-table td:nth-child(3):has(+ td) {
+    letter-spacing: 0.3px;
+}
+
+
+/* =========================================
+   IP ADDRESS
+   ========================================= */
+
+.logs-table td:nth-child(4) {
+    font-family: "Fira Code", monospace;
+    color: #9ee7ff;
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   USER AGENT
+   ========================================= */
+
+.logs-table td:nth-child(5) {
+    max-width: 400px;
+
+    color: #9aaabd;
+
+    font-size: 12px;
+
+    white-space: normal;
+    word-break: break-word;
+}
+
+
+/* =========================================
+   TIMESTAMP
+   ========================================= */
+
+.logs-table td:nth-child(6) {
+    white-space: nowrap;
+
+    color: #8fa8ba;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   EMPTY LOG MESSAGE
+   ========================================= */
+
+.logs-container > p {
+    margin: 20px 0 5px;
+
+    color: #8fa8ba;
+
+    font-family: "Fira Code", monospace;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   SCROLLBAR
+   ========================================= */
+
+.logs-container::-webkit-scrollbar {
+    height: 7px;
+}
+
+.logs-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+.logs-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.logs-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 255, 0.6);
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 900px) {
+
+    .logs-container {
+        padding: 18px;
+    }
+
+    .logs-container h2 {
+        font-size: 18px;
+    }
+
+    .logs-table {
+        min-width: 850px;
+        font-size: 12px;
+    }
+
+    .logs-table th,
+    .logs-table td {
+        padding: 10px 8px;
+    }
+}
+/* =========================================
+   LOG STATISTICS
+   ========================================= */
+
+.log-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.log-stat-card {
+    padding: 20px;
+
+    background: rgba(10, 15, 25, 0.85);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 10px;
+
+    box-shadow:
+        0 0 12px rgba(0, 255, 255, 0.05);
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.log-stat-title {
+    font-family: "Fira Code", monospace;
+    font-size: 12px;
+    color: #8fa8ba;
+    text-transform: uppercase;
+}
+
+.log-stat-card strong {
+    font-family: "Fira Code", monospace;
+    font-size: 28px;
+    color: #00ffff;
+
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.35);
+}
+
+
+/* =========================================
+   SUSPICIOUS LOGIN
+   ========================================= */
+
+.suspicious-container {
+    margin-bottom: 25px;
+    padding: 20px;
+
+    background: rgba(30, 10, 15, 0.85);
+    border: 1px solid rgba(255, 80, 80, 0.35);
+    border-radius: 10px;
+
+    box-shadow:
+        0 0 15px rgba(255, 50, 50, 0.08);
+}
+
+.suspicious-container h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+
+    font-family: "Fira Code", monospace;
+    font-size: 17px;
+
+    color: #ff7070;
+}
+
+.suspicious-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 15px;
+    margin-top: 8px;
+
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+
+    font-family: "Fira Code", monospace;
+    font-size: 13px;
+
+    color: #c9d6e4;
+}
+
+.suspicious-item strong {
+    color: #ff7070;
 }

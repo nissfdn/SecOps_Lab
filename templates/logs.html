@@ -12,6 +12,112 @@
 
 <h1>Logs Tools</h1>
 
+{% if suspicious_logins %}
+
+<div class="suspicious-container">
+
+    <h2>⚠ Suspicious Login Activity</h2>
+
+    {% for suspicious in suspicious_logins %}
+
+        <div class="suspicious-item">
+
+            <span>
+                User:
+                <strong>{{ suspicious[0] }}</strong>
+            </span>
+
+            <span>
+                Failed Attempts:
+                <strong>{{ suspicious[1] }}</strong>
+            </span>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<div class="logs-container">
+
+    <h2>Login Logs</h2>
+
+    {% if login_logs %}
+
+        <table class="logs-table">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Status</th>
+                    <th>IP Address</th>
+                    <th>User-Agent</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for log in login_logs %}
+
+                    <tr>
+
+                        <td>{{ log[0] }}</td>
+
+                        <td>{{ log[1] }}</td>
+
+                        <td>
+                            {% if log[2] == "SUCCESS" %}
+                                ✅ SUCCESS
+                            {% else %}
+                                ❌ FAILED
+                            {% endif %}
+                        </td>
+
+                        <td>{{ log[3] }}</td>
+
+                        <td>{{ log[4] }}</td>
+
+                        <td>{{ log[5] }}</td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    {% else %}
+
+        <p>No login logs found.</p>
+
+    {% endif %}
+
+</div>
+
+<div class="log-stats">
+
+    <div class="log-stat-card">
+        <span class="log-stat-title">Total Logins</span>
+        <strong>{{ total_logins }}</strong>
+    </div>
+
+    <div class="log-stat-card">
+        <span class="log-stat-title">Successful</span>
+        <strong>{{ successful_logins }}</strong>
+    </div>
+
+    <div class="log-stat-card">
+        <span class="log-stat-title">Failed</span>
+        <strong>{{ failed_logins }}</strong>
+    </div>
+
+</div>
+
 {% endblock %}
 
 </body>

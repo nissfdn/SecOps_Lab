@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecOps Lab - Login</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="auth-container">
+<div class="auth-header">
+    <h1>SecOps Lab</h1>
+    <p>Security Operations Laboratory</p>
+</div>
+
+<!-- Login / Register buttons -->
+<div class="auth-tabs">
+
+    <button
+        type="button"
+        id="login-tab"
+        onclick="showLogin()">
+        Login
+    </button>
+
+    <button
+        type="button"
+        id="register-tab"
+        onclick="showRegister()">
+        Register
+    </button>
+
+</div>
+
+
+<!-- Login Form -->
+<div id="login-form" class="auth-form">
+
+    <h2>Login</h2>
+
+    <form method="POST" action="/login">
+
+        <div class="form-group">
+            <label for="login-username">Username</label>
+
+            <input
+                type="text"
+                id="login-username"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
+        </div>
+
+
+        <div class="form-group">
+            <label for="login-password">Password</label>
+
+            <input
+                type="password"
+                id="login-password"
+                name="password"
+                placeholder="Enter password"
+                required
+            >
+        </div>
+
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- Register Form -->
+<div id="register-form" class="auth-form" style="display: none;">
+
+    <h2>Register</h2>
+
+    <form method="POST" action="/register">
+
+        <div class="form-group">
+            <label for="register-username">Username</label>
+
+            <input
+                type="text"
+                id="register-username"
+                name="username"
+                placeholder="Choose a username"
+                required
+            >
+        </div>
+
+
+        <div class="form-group">
+            <label for="register-password">Password</label>
+
+            <input
+                type="password"
+                id="register-password"
+                name="password"
+                placeholder="Choose a password"
+                required
+            >
+        </div>
+
+
+        <button type="submit">
+            Register
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- Messages -->
+
+{% if error %}
+
+    <div class="auth-error">
+        {{ error }}
+    </div>
+
+{% endif %}
+
+
+{% if success %}
+
+    <div class="auth-success">
+        {{ success }}
+    </div>
+
+{% endif %}
+</div><script> function showLogin() { document.getElementById("login-form").style.display = "block"; document.getElementById("register-form").style.display = "none"; } function showRegister() { document.getElementById("login-form").style.display = "none"; document.getElementById("register-form").style.display = "block"; } </script>
+
+</body>
+
+</html>
