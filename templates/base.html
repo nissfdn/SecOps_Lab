@@ -14,7 +14,7 @@
     <h2><i class="fa-solid fa-shield-halved"></i> SecOps Lab</h2>
 
     <nav>
-        <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+        <a href="/dashboard" class="{% if request.path == '/dashboard' %}active{% endif %}">
             <i class="fa-solid fa-house"></i>
             Dashboard
         </a>
@@ -46,6 +46,11 @@
             <i class="fa-solid fa-terminal"></i>
             Log Analyzer
         </a>
+
+        <a href="/logout">
+    <i class="fa-solid fa-right-from-bracket"></i>
+    Logout
+</a>
 
     </nav>
 </aside>

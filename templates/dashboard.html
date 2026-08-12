@@ -1,19 +1,74 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <title>SecOps Lab</title>
-</head>
-<body>
 {% extends "base.html" %}
+
+{% block title %}Dashboard - SecOps Lab{% endblock %}
 
 {% block content %}
 
-<h1>Welcome to SecOps Lab</h1>
+<div class="dashboard-page">
 
-<p>Cybersecurity Toolkit</p>
+    <div class="dashboard-header">
+        <div>
+            <h1>Welcome, {{ username }}</h1>
+            <p>Welcome to SecOps Lab. Select a security tool to continue.</p>
+        </div>
+    </div>
+
+
+    <div class="dashboard-tools">
+
+        <a href="/password" class="dashboard-card">
+            <div class="dashboard-card-icon">🔐</div>
+            <h2>Password</h2>
+            <p>Analyze password strength and security.</p>
+        </a>
+
+
+        <a href="/hashing" class="dashboard-card">
+            <div class="dashboard-card-icon">#</div>
+            <h2>Hashing</h2>
+            <p>Hash data using different algorithms.</p>
+        </a>
+
+
+        <a href="/encoding" class="dashboard-card">
+            <div class="dashboard-card-icon">⇄</div>
+            <h2>Encoding</h2>
+            <p>Encode and decode data.</p>
+        </a>
+
+
+        <a href="/jwt" class="dashboard-card">
+            <div class="dashboard-card-icon">◆</div>
+            <h2>JWT</h2>
+            <p>Create and analyze JWT tokens.</p>
+        </a>
+
+
+        <a href="/network" class="dashboard-card">
+            <div class="dashboard-card-icon">⌁</div>
+            <h2>Network</h2>
+            <p>Explore network and IP information.</p>
+        </a>
+
+
+        <a href="/web" class="dashboard-card">
+            <div class="dashboard-card-icon">◉</div>
+            <h2>Web</h2>
+            <p>Explore basic web security concepts.</p>
+        </a>
+
+
+        <a href="/logs" class="dashboard-card">
+            <div class="dashboard-card-icon">▤</div>
+            <h2>Logs</h2>
+            <p>View and analyze login activity.</p>
+        </a>
+
+
+
+
+    </div>
+
+</div>
 
 {% endblock %}
-
-</body>
-</html>

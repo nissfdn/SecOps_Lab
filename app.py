@@ -182,6 +182,12 @@ def login():
         error="Invalid username or password"
     )
 
+@app.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect("/login")
 
 @app.route("/dashboard")
 def dashboard():
@@ -197,6 +203,8 @@ def dashboard():
 
 @app.route("/password")
 def password():
+    if "user_id" not in session:
+        return redirect("/login")
     return render_template("password.html")
 
 
@@ -205,6 +213,8 @@ def password():
 
 @app.route("/password/analyze", methods=["POST"])
 def analyze_password():
+    if "user_id" not in session:
+        return redirect("/login")
 
     password=request.form.get("password") #HTML de name="password" yazmistik flask bu gonderilen form bilgiisni request.form ile aliyor
     zxcvbn_result=zxcvbn.zxcvbn(password)
@@ -278,6 +288,8 @@ def analyze_password():
 
 @app.route("/password/hash", methods=["GET","POST"])
 def password_hashing():
+    if "user_id" not in session:
+        return redirect("/login")
     hashed_password=None
 
     if request.method == "POST":
@@ -325,6 +337,8 @@ def password_hashing():
 
 @app.route("/hashing", methods=["GET","POST"])
 def hashing():
+    if "user_id" not in session:
+        return redirect("/login")
 
     hashed = None #bunu yazmazsak hashed sadece postta calisiyor dolayisiyla sayfayi ilk actigimda hashed henuz olusturulmamis olucak bunu onlemek icin yazdik
 
@@ -363,6 +377,8 @@ def hashing():
 
 @app.route("/encoding", methods=["GET","POST"])
 def encoding():
+    if "user_id" not in session:
+        return redirect("/login")
 
     encoded = None #yani henuz encode edilmis veri yok kullanici formu gonderince None nin uzerine gercek deger yaziliyor
 
@@ -384,6 +400,9 @@ def encoding():
 
 @app.route("/encoding/decode", methods=["GET","POST"])
 def encoding_decode():
+    if "user_id" not in session:
+        return redirect("/login")
+
     if request.method == "POST":
         encoded_text=request.form.get("encoded_text")
         decoded=base64.b64decode(encoded_text.encode()).decode() #modul fonksiyon cagirdik
@@ -399,6 +418,8 @@ def encoding_decode():
 
 @app.route("/encoding/url", methods=["POST"])
 def url_encode():
+    if "user_id" not in session:
+        return redirect("/login")
 
     text=request.form.get("text")
     urlencoded = quote(text) #fonksiyonu dogrudan kullandik
@@ -412,6 +433,8 @@ def url_encode():
 
 @app.route("/encoding/url/decode", methods=["POST"])
 def url_decode():
+    if "user_id" not in session:
+        return redirect("/login")
 
     text=request.form.get("text")
     urldecoded = unquote(text) #fonksiyonu dogrudan kullandik
@@ -425,6 +448,8 @@ def url_decode():
 
 @app.route("/encoding/hex", methods=["POST"])
 def hex_encode():
+    if "user_id" not in session:
+        return redirect("/login")
     text=request.form.get("text")
     hexencoded=text.encode().hex() #text i bytes a cevirme
     return render_template(
@@ -437,6 +462,9 @@ def hex_encode():
 
 @app.route("/encoding/hex/decode", methods=["POST"])
 def hex_decode():
+    if "user_id" not in session:
+        return redirect("/login")
+
     text=request.form.get("text")
     hexdecoded=bytes.fromhex(text).decode() #bytes i text e cevirme
     return render_template(
@@ -448,12 +476,17 @@ def hex_decode():
 #----------------------------------------------------------
 @app.route("/network")
 def network():
+    if "user_id" not in session:
+        return redirect("/login")
+
     return render_template("network.html")
 
 #---------Web Analyzer----------------
 #----------------------------------------------------------
 @app.route("/web", methods=["GET", "POST"])
 def web():
+    if "user_id" not in session:
+        return redirect("/login")
 
     headers = None #sayfa ilk acildiginda henuz http  header bilgisi olmadigi iicn none ile baslatiyoruz
     security_results = None #guvenlik headerlarinin sonuclarini tutacagimiz degiskeni baslnagicta none yapiyoruz
@@ -623,6 +656,8 @@ def base64url_decode(data):
     return decoded.decode("utf-8")
 @app.route("/jwt", methods=["GET","POST"])
 def jwt_tool(): #jwt yaparsan python jwt dediginde kutuphaneyi degil jwt fonksiyonunu goruyor hata veriyor
+    if "user_id" not in session:
+        return redirect("/login")
 
     token=None #none cunku sayfa ilk acildiigin jwt token olusturulmadi
     decoded_header = None
@@ -676,6 +711,8 @@ def jwt_tool(): #jwt yaparsan python jwt dediginde kutuphaneyi degil jwt fonksiy
 
 @app.route("/jwt/analyze", methods=["POST"])
 def jwt_analyze():
+    if "user_id" not in session:
+        return redirect("/login")
 
     token = request.form.get("jwt_token")
 
