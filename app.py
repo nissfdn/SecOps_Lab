@@ -11,6 +11,7 @@ import bcrypt
 import jwt
 import zxcvbn
 
+from flask import redirect, url_for
 from dotenv import load_dotenv #.env ye secret keyleri ekledik
 from flask import Flask, render_template, request, session, redirect ## kullanicidan gelen veriyi okuyacagiz o yuzden request ekledik
 #from werkzeug.security import generate_password_hash, check_password_hash bu werkzeug iicn ama biz argon2id ile hash yaptik
@@ -79,6 +80,10 @@ def log_login(username, status, ip_address, user_agent):
 
     conn.commit()
     conn.close()
+
+@app.route("/")
+def home():
+    return redirect(url_for("login"))
 
 @app.route("/register", methods=["POST"])
 def register():
