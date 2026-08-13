@@ -37,7 +37,7 @@ ph = PasswordHasher() #argon2 mantigi
 #----------Database fonksiyonlarini ekliyorum login icin\--------
 #----------------------------------------------------------------
 def init_db():
-    conn = sqlite3.connect("secops.db")
+    conn = sqlite3.connect("/tmp/secops.db")
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -63,7 +63,7 @@ def init_db():
     conn.close()
 
 def log_login(username, status, ip_address, user_agent):
-    conn = sqlite3.connect("secops.db")
+    conn = sqlite3.connect("/tmp/secops.db")
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -97,7 +97,7 @@ def register():
     password_hash = ph.hash(password) #bu argon2id ile hashleme
 
     #database e kaydet
-    conn = sqlite3.connect("secops.db")
+    conn = sqlite3.connect("/tmp/secops.db")
     cursor = conn.cursor()
 
     try:
@@ -138,7 +138,7 @@ def login():
     ip_address=request.remote_addr
     user_agent = request.headers.get("User_Agent")
 
-    conn = sqlite3.connect("secops.db")
+    conn = sqlite3.connect("/tmp/secops.db")
     cursor = conn.cursor()
 
     cursor.execute(
@@ -948,7 +948,7 @@ def logs():
     if "user_id" not in session:
         return redirect("/login")
 #conn -> database    cursor -> database e komut gonderen arac
-    conn = sqlite3.connect("secops.db")
+    conn = sqlite3.connect("/tmp/secops.db")
     cursor = conn.cursor() #cursor sayesinde database e sql komutlari gonderebiliyoruz
 
     cursor.execute(""" 
