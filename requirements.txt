@@ -1,0 +1,7 @@
+Flask
+requests
+bcrypt
+PyJWT
+zxcvbn
+python-dotenv
+argon2-cffi
